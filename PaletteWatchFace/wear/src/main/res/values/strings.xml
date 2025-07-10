@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Palette</string>
+    <string name="palette_label">Palette</string>
+    <string name="set_as_active">Set as active</string>
+</resources>

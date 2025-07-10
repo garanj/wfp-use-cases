@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Surf Forecast</string>
+    <string name="wind_complication_label">Wind</string>
+    <string name="tide_complication_label">Tide</string>
+    <string name="water_temp_complication_label">Water temp</string>
+    <string name="set_as_active">Set as active</string>
+</resources>

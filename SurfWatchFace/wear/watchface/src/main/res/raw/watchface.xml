@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<WatchFace width="450" height="450" clipShape="CIRCLE">
+  <Metadata key="CLOCK_TYPE" value="DIGITAL"/>
+  <Scene>
+    <Condition>
+      <Expressions>
+        <Expression name="show_background">
+          <![CDATA[[REFERENCE.enabled] != 0]]>
+        </Expression>
+      </Expressions>
+      <Compare expression="show_background">
+        <PartImage x="0" y="0" width="450" height="450" tintColor="#37718e">
+          <Transform target="y" value="(100 - [REFERENCE.tide_progress]) * 450 / 100"/>
+          <Image resource="sea" />
+        </PartImage>
+      </Compare>
+    </Condition>
+
+    <ComplicationSlot
+        name="tide" slotId="0"
+        supportedTypes="RANGED_VALUE"
+        x="0" y="0" width="225" height="225"
+        isCustomizable="FALSE">
+      <DefaultProviderPolicy
+          primaryProvider="com.example.surf/com.example.surf.complication.TideComplicationService"
+          primaryProviderType="RANGED_VALUE"
+          defaultSystemProvider="STEP_COUNT"
+          defaultSystemProviderType="RANGED_VALUE" />
+      <BoundingArc centerX="225" centerY="225" width="400"
+          height="400" thickness="50"
+          startAngle="270" endAngle="360" />
+      <Complication type="RANGED_VALUE">
+        <Condition>
+          <Expressions>
+            <Expression name="is_enabled">
+              <![CDATA[[COMPLICATION.TEXT] != "NOT_CONFIGURED"]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="is_enabled">
+            <!--
+                The RANGED_VALUE value of the complication is exposed as a REFERENCE by applying to
+                a "hidden" PartDraw element. This means the tide_progress value can be used anywhere
+                on the watch face, including crucially outside of the Complication slot from where
+                the information originates
+            -->
+            <PartDraw x="0" y="0" width="1" height="1">
+              <Transform target="angle" value="abs([COMPLICATION.RANGED_VALUE_VALUE])" />
+              <Reference source="angle" name="tide_progress" defaultValue="0" />
+              <Line startX="0" startY="0" endX="1" endY="1">
+                <Stroke thickness="1" color="#000000"/>
+              </Line>
+            </PartDraw>
+
+            <Group name="tide_information" x="30" y="30" width="390" height="390" angle="280">
+              <PartImage x="175" y="0" width="50" height="50">
+                <Reference source="width" name="enabled" defaultValue="0" />
+                <!-- If the image is visible, this reference value will be set to non-zero -->
+                <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" />
+              </PartImage>
+              <PartText x="0" y="0" width="390" height="390" blendMode="XOR">
+                <TextCircular centerX="195" centerY="195"
+                    width="340" height="340" startAngle="10"
+                    endAngle="90" align="START">
+                  <Font family="kanit" size="32">
+                    <Template><![CDATA[%sm - %s]]>
+                      <Parameter expression="[COMPLICATION.TITLE]"/>
+                      <Parameter expression="[COMPLICATION.TEXT]"/>
+                    </Template>
+                  </Font>
+                </TextCircular>
+              </PartText>
+            </Group>
+          </Compare>
+        </Condition>
+      </Complication>
+    </ComplicationSlot>
+
+<ComplicationSlot
+    name="swell" slotId="4"
+    supportedTypes="RANGED_VALUE"
+    x="225" y="0" width="225" height="225"
+    isCustomizable="FALSE">
+  <DefaultProviderPolicy
+      primaryProvider="com.example.surf/com.example.surf.complication.SwellComplicationService"
+      primaryProviderType="RANGED_VALUE"
+      defaultSystemProvider="STEP_COUNT"
+      defaultSystemProviderType="RANGED_VALUE" />
+      <BoundingArc centerX="0" centerY="225" width="375"
+          height="375" thickness="80"
+          startAngle="0" endAngle="90" />
+      <Complication type="RANGED_VALUE">
+        <Condition>
+          <Expressions>
+            <Expression name="is_enabled">
+              <![CDATA[[COMPLICATION.TEXT] != "NOT_CONFIGURED"]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="is_enabled">
+            <Group name="swell_information" x="-195" y="30" width="390" height="390" angle="70">
+              <PartImage x="175" y="0" width="50" height="50">
+                <Image resource="swell" />
+              </PartImage>
+              <PartText x="0" y="0" width="390" height="390">
+                <TextCircular centerX="195" centerY="195"
+                    width="340" height="340" startAngle="270"
+                    endAngle="350" align="END">
+                  <Font family="kanit" size="32">
+                    <Template><![CDATA[%s]]>
+                      <Parameter expression="[COMPLICATION.TITLE]"/>
+                    </Template>
+                  </Font>
+                </TextCircular>
+              </PartText>
+              <PartText x="0" y="0" width="390" height="390">
+                <TextCircular centerX="195" centerY="195"
+                    width="280" height="280" startAngle="270"
+                    endAngle="350" align="END">
+                  <Font family="kanit" size="24">
+                    <Template><![CDATA[%s%s h]]>
+                      <Parameter expression="round((abs([COMPLICATION.TEXT]) - [UTC_TIMESTAMP]) / 3600000) &lt; 0 ? &quot;-&quot; : &quot;&quot;"/>
+                      <Parameter expression="round((abs([COMPLICATION.TEXT]) - [UTC_TIMESTAMP]) / 3600000)"/>
+                    </Template>
+                  </Font>
+                </TextCircular>
+              </PartText>
+            </Group>
+          </Compare>
+        </Condition>
+      </Complication>
+    </ComplicationSlot>
+
+    <ComplicationSlot
+        name="wind" slotId="1"
+        supportedTypes="RANGED_VALUE"
+        x="200" y="300" width="50" height="50"
+        isCustomizable="FALSE">
+    <DefaultProviderPolicy
+        primaryProvider="com.example.surf/com.example.surf.complication.WindComplicationService"
+        primaryProviderType="RANGED_VALUE"
+        defaultSystemProvider="STEP_COUNT"
+        defaultSystemProviderType="RANGED_VALUE" />
+    <BoundingBox x="0" y="0" width="50" height="50" />
+    <Complication type="RANGED_VALUE">
+    <Condition>
+    <Expressions>
+      <Expression name="is_enabled">
+        <![CDATA[[COMPLICATION.TEXT] != "NOT_CONFIGURED"]]>
+      </Expression>
+    </Expressions>
+    <Compare expression="is_enabled">
+      <PartDraw x="0" y="0" width="1" height="1">
+        <Transform target="angle" value="round(abs([COMPLICATION.TITLE]))" />
+        <Reference source="angle" name="speed" defaultValue="-1" />
+        <Line startX="0" startY="0" endX="1" endY="1">
+          <Stroke thickness="1" color="#000000"/>
+        </Line>
+      </PartDraw>
+      <PartDraw x="0" y="0" width="1" height="1">
+        <Transform target="angle" value="[COMPLICATION.RANGED_VALUE_VALUE]" />
+        <Reference source="angle" name="direction" defaultValue="-1" />
+        <Line startX="0" startY="0" endX="1" endY="1">
+          <Stroke thickness="1" color="#000000"/>
+        </Line>
+      </PartDraw>
+      <PartDraw x="0" y="0" width="1" height="1">
+        <Transform target="angle" value="round((abs([COMPLICATION.TEXT]) - [UTC_TIMESTAMP]) / 3600000)" />
+        <Reference source="angle" name="hours" defaultValue="0" />
+        <Line startX="0" startY="0" endX="1" endY="1">
+          <Stroke thickness="1" color="#000000"/>
+        </Line>
+      </PartDraw>
+      <PartImage x="0" y="0" width="50" height="50">
+        <Image resource="wind_button" />
+      </PartImage>
+    </Compare>
+    </Condition>
+    </Complication>
+    </ComplicationSlot>
+
+    <ComplicationSlot
+        name="water_temp" slotId="2"
+        supportedTypes="SHORT_TEXT"
+        x="275" y="300" width="75" height="50"
+        isCustomizable="FALSE">
+      <DefaultProviderPolicy
+          primaryProvider="com.example.surf/com.example.surf.complication.WaterTempComplicationService"
+          primaryProviderType="SHORT_TEXT"
+          defaultSystemProvider="NEXT_EVENT"
+          defaultSystemProviderType="SHORT_TEXT" />
+      <BoundingBox x="0" y="0" width="75" height="50" />
+      <Complication type="SHORT_TEXT">
+        <Condition>
+          <Expressions>
+            <Expression name="is_enabled">
+              <![CDATA[[COMPLICATION.TEXT] != "NOT_CONFIGURED"]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="is_enabled">
+            <PartText x="0" y="0" width="75" height="50">
+              <Text>
+                <Font family="kanit" size="32">
+                  <Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+        </Condition>
+      </Complication>
+    </ComplicationSlot>
+
+    <ComplicationSlot
+        name="sunrise_sunset" slotId="3"
+        supportedTypes="SHORT_TEXT"
+        x="100" y="300" width="75" height="50"
+        isCustomizable="FALSE">
+      <DefaultProviderPolicy
+          defaultSystemProvider="SUNRISE_SUNSET"
+          defaultSystemProviderType="SHORT_TEXT" />
+      <BoundingBox x="0" y="0" width="75" height="50" />
+      <Complication type="SHORT_TEXT">
+        <Condition>
+          <Expressions>
+            <Expression name="is_enabled">
+              <![CDATA[[REFERENCE.enabled] != 0]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="is_enabled">
+            <PartText x="0" y="0" width="75" height="50">
+              <Text>
+                <Font family="kanit" size="32">
+                  <Template>%s<Parameter expression="[COMPLICATION.TEXT]"/></Template>
+                </Font>
+              </Text>
+            </PartText>
+          </Compare>
+        </Condition>
+      </Complication>
+    </ComplicationSlot>
+
+    <Condition>
+      <Expressions>
+        <Expression name="show_launcher">
+          <![CDATA[[REFERENCE.enabled] == 0]]>
+        </Expression>
+      </Expressions>
+      <Compare expression="show_launcher">
+        <Group name="setup" x="100" y="100" width="250" height="100">
+          <Launch target="com.example.surf/com.example.surf.MainActivity" />
+          <PartDraw x="0" y="0" width="250" height="100">
+            <RoundRectangle x="0" y="0" width="250" height="100"
+                cornerRadiusX="50" cornerRadiusY="50">
+              <Fill color="#FFFFFF"/>
+            </RoundRectangle>
+          </PartDraw>
+          <PartText x="0" y="0" width="250" height="100">
+            <Text>
+              <Font family="kanit" size="32" color="#000000">Tap to enable</Font>
+            </Text>
+          </PartText>
+        </Group>
+      </Compare>
+      <Default>
+        <Group name="wind_indicator" x="0" y="0" width="450" height="450" tintColor="#8ee3ef">
+          <Transform target="angle" value="[REFERENCE.direction]"/>
+          <PartImage x="200" y="0" width="50" height="50">
+            <Image resource="wind_arrow" />
+          </PartImage>
+
+          <PartText x="0" y="0" width="225" height="225">
+            <TextCircular centerX="225" centerY="225"
+                width="410" height="410" startAngle="270"
+                endAngle="350" align="END">
+              <Font family="kanit" size="32">
+                <Template>%d mph<Parameter expression="[REFERENCE.speed]"/></Template>
+              </Font>
+            </TextCircular>
+          </PartText>
+
+          <PartText x="225" y="0" width="225" height="225">
+            <TextCircular centerX="0" centerY="225"
+                width="410" height="410" startAngle="10"
+                endAngle="90" align="START">
+              <Font family="kanit" size="32">
+                <Template>%d h<Parameter expression="[REFERENCE.hours]"/></Template>
+              </Font>
+            </TextCircular>
+          </PartText>
+
+          <PartDraw x="0" y="0" width="450" height="450">
+            <Arc centerX="225" centerY="225" width="420" height="420"
+                startAngle="30" endAngle="310">
+              <Stroke thickness="20" color="#FFFFFF" cap="ROUND"/>
+            </Arc>
+          </PartDraw>
+
+        </Group>
+
+        <PartText x="50" y="150" width="350" height="150" blendMode="DIFFERENCE">
+          <Text>
+            <Font family="kanit" size="128">
+              <!-- Using text not DigitalClock for blendmode support -->
+              <Template><![CDATA[%02d:%02d]]>
+                <Parameter expression="[HOUR]" />
+                <Parameter expression="[MINUTE]" />
+              </Template>
+            </Font>
+          </Text>
+        </PartText>
+      </Default>
+    </Condition>
+  </Scene>
+</WatchFace>

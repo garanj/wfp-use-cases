@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<WatchFace clipShape="CIRCLE" height="450" width="450">
+    <Scene>
+        <ComplicationSlot name="color_theme" height="1" width="1" x="0" y="0"
+            isCustomizable="FALSE"
+            slotId="0"
+            supportedTypes="SHORT_TEXT" >
+            <DefaultProviderPolicy
+                defaultSystemProvider="NEXT_EVENT"
+                defaultSystemProviderType="SHORT_TEXT"
+                primaryProvider="com.example.football/com.example.football.complication.ColorsComplicationService"
+                primaryProviderType="SHORT_TEXT" />
+            <BoundingBox height="1" width="1" x="0" y="0" />
+            <Complication type="SHORT_TEXT">
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="tintColor" value="extractColorFromColors([COMPLICATION.TITLE], false, 0.0)" />
+                    <Reference source="tintColor" defaultValue="#000000" name="primary_color" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="tintColor" value="extractColorFromColors([COMPLICATION.TITLE], false, 0.5)" />
+                    <Reference source="tintColor" defaultValue="#000000" name="secondary_color" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="tintColor" value="extractColorFromColors([COMPLICATION.TITLE], false, 1.0)" />
+                    <Reference source="tintColor" defaultValue="#000000" name="tertiary_color" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="x" value="[COMPLICATION.TEXT] == &quot;NOT_CONFIGURED&quot; ? 0 : 1" />
+                    <Reference source="x" defaultValue="0" name="is_enabled" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+            </Complication>
+        </ComplicationSlot>
+
+        <Condition>
+            <Expressions>
+                <Expression name="is_enabled">
+                    <![CDATA[[REFERENCE.is_enabled] == 1]]>
+                </Expression>
+            </Expressions>
+            <Compare expression="is_enabled">
+                <Group x="0" y="0" width="450" height="450" name="bg"
+                    angle="45">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <PartDraw x="0" y="0" width="150" height="450">
+                        <Rectangle x="0" y="0" width="150" height="450">
+                            <Fill color="[REFERENCE.primary_color]" />
+                        </Rectangle>
+                    </PartDraw>
+                    <PartDraw x="150" y="0" width="150" height="450">
+                        <Rectangle x="0" y="0" width="150" height="450">
+                            <Fill color="[REFERENCE.secondary_color]" />
+                        </Rectangle>
+                    </PartDraw>
+                    <PartDraw x="300" y="0" width="150" height="450">
+                        <Rectangle x="0" y="0" width="150" height="450">
+                            <Fill color="[REFERENCE.tertiary_color]" />
+                        </Rectangle>
+                    </PartDraw>
+                    <PartDraw x="0" y="0" width="450" height="450">
+                        <Ellipse x="0" y="0" width="450" height="450">
+                            <Fill color="#000000">
+                                <RadialGradient centerX="225" centerY="225" radius="225"
+                                    colors="#FF000000 #00000000" positions="0.6 1.0" />
+                            </Fill>
+                        </Ellipse>
+                    </PartDraw>
+                </Group>
+                <DigitalClock x="50" y="175" width="350" height="100">
+                    <TimeText format="hh:mm" x="0" y="0" width="350" height="100">
+                        <Font family="SYNC_TO_DEVICE" size="96"/>
+                    </TimeText>
+                </DigitalClock>
+            </Compare>
+        </Condition>
+
+        <ComplicationSlot name="team_name" height="450" width="450" x="0" y="0"
+            isCustomizable="FALSE"
+            slotId="1"
+            supportedTypes="SHORT_TEXT" >
+            <DefaultProviderPolicy
+                defaultSystemProvider="NEXT_EVENT"
+                defaultSystemProviderType="SHORT_TEXT"
+                primaryProvider="com.example.football/com.example.football.complication.TeamNameComplicationService"
+                primaryProviderType="SHORT_TEXT" />
+            <BoundingArc centerX="225" centerY="225" width="425"
+                height="425" thickness="60"
+                startAngle="270" endAngle="360"
+                direction="CLOCKWISE"/>
+            <Complication type="SHORT_TEXT">
+                <PartText x="0" y="0" width="450" height="450">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <TextCircular centerX="225" centerY="225"
+                        direction="CLOCKWISE" width="400"
+                        height="400" startAngle="270"
+                        endAngle="360" align="CENTER">
+                        <Font family="SYNC_TO_DEVICE" size="32" weight="BOLD">
+                            <Transform target="color" value="[REFERENCE.secondary_color]"/>
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT] != &quot;NOT_CONFIGURED&quot; ? [COMPLICATION.TITLE] : &quot;&quot;"/></Template>
+                        </Font>
+                    </TextCircular>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
+
+        <ComplicationSlot name="next_game" height="450" width="450" x="0" y="0"
+            isCustomizable="FALSE"
+            slotId="2"
+            supportedTypes="SHORT_TEXT" >
+            <DefaultProviderPolicy
+                defaultSystemProvider="NEXT_EVENT"
+                defaultSystemProviderType="SHORT_TEXT"
+                primaryProvider="com.example.football/com.example.football.complication.NextGameComplicationService"
+                primaryProviderType="SHORT_TEXT" />
+            <BoundingArc centerX="225" centerY="225" width="425"
+                height="425" thickness="60"
+                startAngle="90" endAngle="180"
+                direction="CLOCKWISE"/>
+            <Complication type="SHORT_TEXT">
+                <PartText x="0" y="0" width="450" height="450">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <TextCircular centerX="225" centerY="225"
+                        direction="COUNTER_CLOCKWISE" width="400"
+                        height="400" startAngle="180"
+                        endAngle="90" align="CENTER">
+                        <Font family="SYNC_TO_DEVICE" size="32" weight="BOLD">
+                            <Transform target="color" value="[REFERENCE.secondary_color]"/>
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT] != &quot;NOT_CONFIGURED&quot; ? [COMPLICATION.TITLE] : &quot;&quot;"/></Template>
+                        </Font>
+                    </TextCircular>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
+
+        <ComplicationSlot name="logo" x="165" y="265" width="120" height="120"
+            isCustomizable="FALSE"
+            slotId="3"
+            supportedTypes="SHORT_TEXT" >
+            <DefaultProviderPolicy
+                defaultSystemProvider="NEXT_EVENT"
+                defaultSystemProviderType="SHORT_TEXT"
+                primaryProvider="com.example.football/com.example.football.complication.TeamLogoComplicationService"
+                primaryProviderType="SHORT_TEXT" />
+            <BoundingBox x="0" y="0" width="120" height="120" />
+            <Complication type="SHORT_TEXT">
+                <PartImage x="10" y="10" width="100" height="100">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Transform target="tintColor" value="[REFERENCE.secondary_color]"/>
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]"/>
+                </PartImage>
+            </Complication>
+        </ComplicationSlot>
+
+        <Condition>
+            <Expressions>
+                <Expression name="is_not_enabled">
+                    <![CDATA[[REFERENCE.is_enabled] == 0]]>
+                </Expression>
+            </Expressions>
+            <Compare expression="is_not_enabled">
+                <Group name="setup" x="100" y="100" width="250" height="100">
+                    <Launch target="com.example.football/com.example.football.LaunchConfirmedActivity" />
+                    <PartDraw x="0" y="0" width="250" height="100">
+                        <RoundRectangle x="0" y="0" width="250" height="100"
+                            cornerRadiusX="50" cornerRadiusY="50">
+                            <Fill color="#FFFFFF"/>
+                        </RoundRectangle>
+                    </PartDraw>
+                    <PartText x="0" y="0" width="250" height="100">
+                        <Text>
+                            <Font family="SYNC_TO_DEVICE" size="32" color="#000000">Tap to enable</Font>
+                        </Text>
+                    </PartText>
+                </Group>
+            </Compare>
+        </Condition>
+    </Scene>
+</WatchFace>

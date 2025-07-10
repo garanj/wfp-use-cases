@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<WatchFace width="450" height="450" clipShape="CIRCLE">
+  <Metadata key="CLOCK_TYPE" value="DIGITAL"/>
+  <Scene>
+    <ComplicationSlot
+        name="photos" slotId="0"
+        supportedTypes="SMALL_IMAGE"
+        x="0" y="0" width="450" height="450"
+        isCustomizable="FALSE">
+      <DefaultProviderPolicy
+          primaryProvider="com.example.photoalbum/com.example.photoalbum.complication.PhotosComplicationService"
+          primaryProviderType="SMALL_IMAGE"
+          defaultSystemProvider="APP_SHORTCUT"
+          defaultSystemProviderType="SMALL_IMAGE" />
+      <BoundingBox x="0" y="0" width="450" height="450" />
+      <Complication type="SMALL_IMAGE">
+        <Condition>
+          <Expressions>
+            <Expression name="is_enabled">
+              <![CDATA[[COMPLICATION.IMAGE_STYLE] == "1"]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="is_enabled">
+            <PartImage x="0" y="0" width="450" height="450">
+              <Image resource="[COMPLICATION.SMALL_IMAGE]"/>
+            </PartImage>
+          </Compare>
+          <Default>
+            <Group name="setup" x="100" y="100" width="250" height="100">
+              <Launch target="com.example.photoalbum/com.example.photoalbum.MainActivity" />
+              <PartDraw x="0" y="0" width="250" height="100">
+                <RoundRectangle x="0" y="0" width="250" height="100"
+                    cornerRadiusX="50" cornerRadiusY="50">
+                  <Fill color="#FFFFFF"/>
+                </RoundRectangle>
+              </PartDraw>
+              <PartText x="0" y="0" width="250" height="100">
+                <Text>
+                  <Font family="SYNC_TO_DEVICE" size="32" color="#000000">Tap to enable</Font>
+                </Text>
+              </PartText>
+            </Group>
+          </Default>
+        </Condition>
+        <PartDraw x="0" y="225" width="450" height="225">
+          <Rectangle x="0" y="0" width="450" height="225">
+            <Fill color="#000000">
+              <LinearGradient startX="0" startY="0" endX="0" endY="255"
+                  colors="#00000000 #FF000000" positions="0.0 1.0" />
+            </Fill>
+          </Rectangle>
+        </PartDraw>
+        <PartDraw x="0" y="0" width="450" height="450">
+          <Ellipse x="0" y="0" width="450" height="450">
+            <Fill color="#000000">
+              <RadialGradient centerX="225" centerY="225" radius="225"
+                  colors="#00000000 #FF000000" positions="0.9 1.0" />
+            </Fill>
+          </Ellipse>
+        </PartDraw>
+      </Complication>
+    </ComplicationSlot>
+    <DigitalClock x="50" y="300" width="350" height="100">
+      <TimeText format="hh:mm" x="0" y="0" width="350" height="100">
+        <Font family="SYNC_TO_DEVICE" size="96"/>
+      </TimeText>
+    </DigitalClock>
+  </Scene>
+</WatchFace>

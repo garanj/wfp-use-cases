@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<WatchFace width="450" height="450" clipShape="CIRCLE">
+  <Metadata key="CLOCK_TYPE" value="DIGITAL"/>
+  <Scene>
+    <ComplicationSlot
+        name="status" slotId="0"
+        supportedTypes="SHORT_TEXT"
+        x="100" y="100" width="250" height="350"
+        isCustomizable="FALSE">
+      <DefaultProviderPolicy
+          primaryProvider="com.example.devicedata/com.example.devicedata.service.StatusComplicationService"
+          primaryProviderType="SHORT_TEXT"
+          defaultSystemProvider="NEXT_EVENT"
+          defaultSystemProviderType="SHORT_TEXT" />
+      <BoundingBox x="0" y="0" width="250" height="350" />
+      <Complication type="SHORT_TEXT">
+        <Condition>
+          <!-- The "Expressions" element is required. -->
+          <Expressions>
+            <Expression name="is_enabled">
+              <![CDATA[[COMPLICATION.TITLE] == "ENABLED"]]>
+            </Expression>
+          </Expressions>
+          <Compare expression="is_enabled">
+            <PartImage x="25" y="0" width="200" height="200">
+              <Launch target="devicedata://analysis/screen" />
+              <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]"/>
+            </PartImage>
+            <PartDraw x="100" y="225" width="50" height="50">
+              <!-- Only show green for the status indicator if the data is less than 2 mins old -->
+              <Transform target="tintColor" value="([UTC_TIMESTAMP] - round([COMPLICATION.TEXT])) &lt; 120000 ? colorRgb(0,255,0) : colorRgb(255,0,0)"/>
+              <Ellipse x="0" y="0" width="50" height="50">
+                <Fill color="#FFFFFF"/>
+              </Ellipse>
+            </PartDraw>
+          </Compare>
+          <Default>
+            <Group name="setup" x="0" y="0" width="250" height="350">
+              <Launch target="com.example.devicedata/com.example.devicedata.MainActivity" />
+              <PartDraw x="0" y="150" width="250" height="100">
+                <RoundRectangle x="0" y="0" width="250" height="100"
+                    cornerRadiusX="50" cornerRadiusY="50">
+                  <Fill color="#FFFFFF"/>
+                </RoundRectangle>
+              </PartDraw>
+              <PartText x="0" y="150" width="250" height="100">
+                <Text>
+                  <Font family="SYNC_TO_DEVICE" size="32" color="#000000">Tap to enable</Font>
+                </Text>
+              </PartText>
+            </Group>
+          </Default>
+        </Condition>
+
+      </Complication>
+    </ComplicationSlot>
+  </Scene>
+</WatchFace>

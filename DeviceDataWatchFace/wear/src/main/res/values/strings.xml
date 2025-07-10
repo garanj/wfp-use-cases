@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Device Data</string>
+    <string name="status_complication_label">Status</string>
+    <string name="set_as_active">Set as active</string>
+</resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<WatchFace clipShape="CIRCLE" height="450" width="450">
+    <Scene>
+        <ComplicationSlot name="color_theme" height="1" width="1" x="0" y="0"
+            isCustomizable="FALSE"
+            slotId="0"
+            supportedTypes="SHORT_TEXT" >
+            <DefaultProviderPolicy
+                defaultSystemProvider="NEXT_EVENT"
+                defaultSystemProviderType="SHORT_TEXT"
+                primaryProvider="com.example.palette/com.example.palette.complication.PaletteComplicationService"
+                primaryProviderType="SHORT_TEXT" />
+            <BoundingBox height="1" width="1" x="0" y="0" />
+            <Complication type="SHORT_TEXT">
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="tintColor" value="extractColorFromColors([COMPLICATION.TEXT], false, 0.0)" />
+                    <Reference source="tintColor" defaultValue="#000000" name="primary_color" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="tintColor" value="extractColorFromColors([COMPLICATION.TEXT], false, 0.5)" />
+                    <Reference source="tintColor" defaultValue="#000000" name="secondary_color" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="tintColor" value="extractColorFromColors([COMPLICATION.TEXT], false, 1.0)" />
+                    <Reference source="tintColor" defaultValue="#000000" name="tertiary_color" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+                <PartDraw x="0" y="0" width="1" height="1">
+                    <Transform target="x" value="[COMPLICATION.TITLE] == &quot;NOT_CONFIGURED&quot; ? 0 : 1" />
+                    <Reference source="x" defaultValue="0" name="is_enabled" />
+                    <Line startX="0" startY="0" endX="1" endY="1">
+                        <Stroke color="#000000" thickness="1" />
+                    </Line>
+                </PartDraw>
+            </Complication>
+        </ComplicationSlot>
+
+        <Condition>
+            <Expressions>
+                <Expression name="is_enabled">
+                    <![CDATA[[REFERENCE.is_enabled] == 1]]>
+                </Expression>
+            </Expressions>
+            <Compare expression="is_enabled">
+                <PartDraw x="0" y="0" width="450" height="450">
+                    <Transform target="tintColor" value="[REFERENCE.tertiary_color]" />
+                    <Ellipse x="100" y="100" width="250" height="250">
+                        <Fill color="#FFFFFF" />
+                    </Ellipse>
+                    <Ellipse x="150" y="150" width="150" height="150">
+                        <Fill color="#000000" />
+                    </Ellipse>
+                </PartDraw>
+                <AnalogClock x="0" y="0" width="450" height="450">
+                    <Variant mode="AMBIENT" target="alpha" value="192" />
+                        <HourHand resource="hour" x="210" y="75" width="30" height="180" pivotX="0.5"
+                            pivotY="0.8333" tintColor="[REFERENCE.primary_color]">
+                        </HourHand>
+                    <MinuteHand resource="minute" x="210" y="30" width="30" height="220" pivotX="0.5"
+                        pivotY="0.8864" tintColor="[REFERENCE.secondary_color]">
+                    </MinuteHand>
+                    <SecondHand resource="second" x="215" y="30" width="20" height="240" pivotX="0.5"
+                        pivotY="0.8125" tintColor="#FFFFFF">
+                        <Variant mode="AMBIENT" target="alpha" value="0" />
+                        <Sweep frequency="15" />
+                    </SecondHand>
+                </AnalogClock>
+
+                <PartDraw x="222" y="222" width="6" height="6">
+                    <Ellipse x="0" y="0" width="6" height="6">
+                        <Fill color="#000000" />
+                    </Ellipse>
+                </PartDraw>
+            </Compare>
+            <Default>
+                <Group name="setup" x="100" y="100" width="250" height="100">
+                    <Launch target="com.example.palette/com.example.palette.LaunchConfirmedActivity" />
+                    <PartDraw x="0" y="0" width="250" height="100">
+                        <RoundRectangle x="0" y="0" width="250" height="100"
+                            cornerRadiusX="50" cornerRadiusY="50">
+                            <Fill color="#FFFFFF"/>
+                        </RoundRectangle>
+                    </PartDraw>
+                    <PartText x="0" y="0" width="250" height="100">
+                        <Text>
+                            <Font family="SYNC_TO_DEVICE" size="32" color="#000000">Tap to enable</Font>
+                        </Text>
+                    </PartText>
+                </Group>
+            </Default>
+        </Condition>
+
+    </Scene>
+</WatchFace>

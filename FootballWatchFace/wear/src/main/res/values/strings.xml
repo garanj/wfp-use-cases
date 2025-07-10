@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Football</string>
+    <string name="team_colors">Football Colors</string>
+    <string name="next_game_label">Next Game</string>
+    <string name="team_logo_label">Team Logo</string>
+    <string name="team_name_label">Team Name</string>
+    <string name="set_as_active">Set as active</string>
+</resources>

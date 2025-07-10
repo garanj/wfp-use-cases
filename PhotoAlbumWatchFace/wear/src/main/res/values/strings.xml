@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Photo Album</string>
+    <string name="status_complication_label">Photo</string>
+    <string name="set_as_active">Set as active</string>
+</resources>
