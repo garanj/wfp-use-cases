@@ -36,5 +36,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SurfWatchFace"
-include(":wear")
-include(":wear:watchface")
+include(":wearApp")
+include(":wearApp:watchface")
