@@ -36,6 +36,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "FootballWatchFace"
-include(":wear")
-include(":wear:watchface")
-include(":app")
+include(":wearApp")
+include(":wearApp:watchface")
+include(":mobileApp")

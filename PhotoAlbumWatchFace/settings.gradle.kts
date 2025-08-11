@@ -36,5 +36,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "PhotoAlbumWatchFace"
-include(":wear")
-include(":wear:watchface")
+include(":wearApp")
+include(":wearApp:watchface")
