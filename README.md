@@ -4,6 +4,8 @@ The [Watch Face Push][1] API allows Wear OS developers to build marketplaces for
 
 However, it also opens to the door to a whole host of additional use cases.
 
+<img src="images/palette.png" width="400" />
+
 The samples in this repository explore some of these opportunities
 
 - [DeviceDataWatchFace](DeviceDataWatchFace) - explores how to couple a watch face with a `ForegroundService` to display data from a connected device.
@@ -11,6 +13,8 @@ The samples in this repository explore some of these opportunities
 - [PaletteWatchFace](PaletteWatchFace) - explores how to set the color theme of a watch face dynamically using a bundled complication.
 - [PhotoWatchFace](PhotoWatchFace) - uses `WorkManager` to show how a watch face can connect to an online photo service.
 - [SurfWatchFace](SurfWatchFace) - Rich-data watch face demonstrating how custom data sources can be represented
+
+<img src="images/samples.png" width="400" />
 
 **Disclaimer: this is not an official Google sample.**
 
